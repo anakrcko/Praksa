@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -68,5 +69,24 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+    public $loginAfterSignUp = true;
+ 
+    public function register(Request $request)
+    {
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+ 
+        // if ($this->loginAfterSignUp) {
+        //     return $this->login($request);               //da se novi korisnik odmah uloguje
+        // }
+ 
+        return response()->json([
+            'success' => true,
+            //'data' => $user           //prikazuje u json sve podatke koje je uneo user
+        ], 200);
     }
 }

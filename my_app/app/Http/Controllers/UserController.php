@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Http\Requests\UserSettingsRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -11,47 +12,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Response;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
- 
+use Illuminate\Auth\Events\Registered;
+
 class UserController extends Controller
 {
-
-    public $loginAfterSignUp = true;
- 
-    public function register(Request $request)
-    {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
- 
-        if ($this->loginAfterSignUp) {
-            return $this->login($request);
-        }
- 
-        return response()->json([
-            'success' => true,
-            'data' => $user
-        ], 200);
-    }
- 
-    public function login(Request $request)
-    {
-        $input = $request->only('email', 'password');
-        $jwt_token = null;
- 
-        if (!$jwt_token = JWTAuth::attempt($input)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid Email or Password',
-            ], 401);
-        }
- 
-        return response()->json([
-            'success' => true,
-            'token' => $jwt_token,
-        ]);
-    }
 
     public function logout(Request $request)
     {
@@ -85,6 +49,24 @@ class UserController extends Controller
         return response()->json(['user' => $user]);
     }
 
+    public function ChangeUserSettings(UserSettingsRequest $request)
+    {
+        // $this->validate($request, [
+        //     'name' => 'required|max:50|unique:users',
+        //     // 'email' => 'required|email|unique:users',
+        //     // 'password' => 'required|min:4'
+        //     'name2' => 'required|max:50|unique:users'
+        // ]);
+
+        $user = Auth::user();
+        dd($user);
+        $user->name = $request->name;
+            // $user->email = $request['email'];
+            // $user->password = bcrypt($request['password']);
+
+        $user->save();
+        
+    }
     /*
 	public function register(Request $request) 
     { 
