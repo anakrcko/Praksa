@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use App\User;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -32,27 +35,28 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $input = $request->only('email', 'password');
-        $jwt_token = null;
+        $userdata = array('email'=> Input::get('email'), 'password' => Input::get('password'));
         
-        $user = DB::table('users')
-            ->select('*')
-            ->where('email',$request['email'])
-            //->where('password',$sifra)
-            ->get();
-
-        dd($user);
-        if (!$jwt_token = JWTAuth::attempt($input)) {
+        $valid = Auth::validate($userdata);
+        
+        if (Auth::validate($userdata))
+        {
+            if (Auth::attempt($userdata))
+            {
+                $jwt_token = JWTAuth::attempt($userdata);
+                return response()->json([
+                    'success' => true,
+                    'token' => $jwt_token,
+                ]);
+            }
+        }
+        else
+        {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid Email or Password',
-            ], 401);
+                'token' => 'Error Logging In.',
+            ]);
         }
- 
-        return response()->json([
-            'success' => true,
-            'token' => $jwt_token,
-        ]);
     }
     public function authenticate(Request $request)
     {
