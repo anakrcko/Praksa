@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -33,7 +34,14 @@ class LoginController extends Controller
     {
         $input = $request->only('email', 'password');
         $jwt_token = null;
- 
+        
+        $user = DB::table('users')
+            ->select('*')
+            ->where('email',$request['email'])
+            //->where('password',$sifra)
+            ->get();
+
+        dd($user);
         if (!$jwt_token = JWTAuth::attempt($input)) {
             return response()->json([
                 'success' => false,
