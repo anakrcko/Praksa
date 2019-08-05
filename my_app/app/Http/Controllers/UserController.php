@@ -13,29 +13,13 @@ use Illuminate\Http\Response;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
 
-    public function logout(Request $request)
-    {
-        $this->validate($request, [
-            'token' => 'required'
-        ]);
- 
-        try {
-            JWTAuth::invalidate($request->token);
- 
-            return response()->json([
-                'success' => true,
-                'message' => 'User logged out successfully'
-            ]);
-        } catch (JWTException $exception) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, the user cannot be logged out'
-            ], 500);
-        }
+    public function logout(){
+    	Auth::logout();
     }
  
     public function getAuthUser(Request $request)
@@ -48,8 +32,7 @@ class UserController extends Controller
  
         return response()->json(['user' => $user]);
     }
-
-    public function ChangeUserSettings(UserSettingsRequest $request)
+    public function ChangeUserSettings(Request $request)
     {
         // $this->validate($request, [
         //     'name' => 'required|max:50|unique:users',
@@ -58,13 +41,16 @@ class UserController extends Controller
         //     'name2' => 'required|max:50|unique:users'
         // ]);
 
-        $user = Auth::user();
-        dd($user);
-        $user->name = $request->name;
-            // $user->email = $request['email'];
-            // $user->password = bcrypt($request['password']);
+        $user = Auth::user();       //ovo treba da uzme logovanog korisnika
+            //dd($user);
+        if($user)
+        {
+            $user->name = Input::get('fullname');
+            // $user->email = Input::get('email');
+            // $user->password = bcrypt(Input::get('password'));
 
-        $user->save();
+            $user->save();
+        }
         
     }
     /*
@@ -99,24 +85,34 @@ class UserController extends Controller
         } 
     }
     
+    // public function logout(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'token' => 'required'
+    //     ]);
+ 
+    //     try {
+    //         JWTAuth::invalidate($request->token);
+ 
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'User logged out successfully'
+    //         ]);
+    //     } catch (JWTException $exception) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Sorry, the user cannot be logged out'
+    //         ], 500);
+    //     }
+    // }
+
 	public function details(Request $request) 
     { 
         $user = Auth::user(); 
         return response()->json(['success' => $user], $this-> successStatus); 
     }
-	public function logout(){
-        $value = $request->bearerToken();
-        $id = (new Parser())->parse($value)->getHeader('jti');
-        $token = $request->user()->tokens->find($id);
-        $token->revoke();
-
-        $response = 'You have been logged out';
-        return response()->json(['success' => response], 200);
-     }
+	
      */
-
-
-
 
 	/*
     public function postSignUp(Request $request){
