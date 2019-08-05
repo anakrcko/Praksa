@@ -20,5 +20,15 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => bcrypt('admin'),
         ]);
+        DB::table('post')->insert([
+            'type' =>'img',
+            'filename' => '/home/ana/Desktop/Praksa/Praksa/my_app/img/a.png',
+            'userId'=> 1,
+        ]);
+        DB::table('post')->insert([
+            'type' =>'img',
+            'filename' => '/home/ana/Desktop/Praksa/Praksa/my_app/img/b.png',
+            'userId'=> 1,
+        ]);
     }
 }
