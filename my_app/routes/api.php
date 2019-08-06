@@ -16,7 +16,8 @@ use App\User;
     // });
 
     Route::post('usersettings','UserController@ChangeUserSettings');
-
+    Route::get('dashboard','PostController@getDashboard'); 
+    
     Route::post('dashboard/profile','UserController@getAuthUser');
 
     Route::post('image', 'FileController@saveFile');

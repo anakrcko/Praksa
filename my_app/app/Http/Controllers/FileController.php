@@ -29,7 +29,14 @@ class FileController extends Controller
             $post->userId = $user->id;
             $post->save();
             
-            return response()->json('File Save');
+            $bin = base64_encode($real_name);
+
+            return response()->json([
+                'postsArray' => [
+                    'image' => $bin,
+                    'author' => $user->name  
+                ]
+            ]);
         } 
     }
 }
