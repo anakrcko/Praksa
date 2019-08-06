@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
-
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class PostController extends Controller
 {
@@ -17,44 +18,15 @@ class PostController extends Controller
 
     public function postCreatePost(Request $request){
     	
-    	$this->validate($request,[
-    		'body' => 'required|max:99|min:5',
-		]);
-
-		
-		$file = Input::file('pic');
-		$img = Image::make($file);
-		Response::make($img->encode('jpeg'));
-		$picture = new Post();
-
-	    $FileName= Input::file('pic')->getClientOriginalName();
-	    $FilePath = public_path('') .'/images/'. $FileName;
-	    $picture->filename = $FilePath;
-	    $picture->save();
-		
-    	// $post = new Post();
-    	// $post->body = $request['body'];
-    	// $message = 'There was an error' ;
-		
-		// if ($request->user()->posts()->save($post)) {
-		// 	$message = 'Post successfully created!';
-		// 	return response()->json([
-		// 		'success' => true,
-		// 		//'token' => $message,
-		// 	]);
-    	// }
-
-		// return response()->json([
-		// 	'success' => false,
-		// 	//'token' => $message,
-		// ]);
 		
     }
 
     public function getDeletePost($post_id){
     		$post = Post::where('id',$post_id)->first();
 
-    		if (Auth::user() != $post->user) {
+			$token = JWTAuth::getToken();
+        	$user = JWTAuth::toUser($token);
+    		if ($user != $post->userId) {
     			return response()->json([
 					'success' => false,
 					'token' => 'Unauthorized access',
@@ -62,7 +34,6 @@ class PostController extends Controller
     		}
 
     		$post->delete();
-			//return redirect() -> route('dashboard')->with(['message' => 'Successfully Deleted!']);
 			return response()->json([
                 'success' => true,
                 //'token' => 'Successfully Deleted!',
@@ -75,8 +46,10 @@ class PostController extends Controller
     		'body' => 'required|max:99|min:4'
     	]);
 
-    	$post = Post::find($request['postId']);
-    	if (Auth::user() != $post->user) {
+		$post = Post::find($request['postId']);
+		$token = JWTAuth::getToken();
+        $user = JWTAuth::toUser($token);
+    	if ($user != $post->userId) {
 			return response()->json([
                 'success' => false,
                 'token' => 'Unauthorized access',

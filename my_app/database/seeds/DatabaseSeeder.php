@@ -22,12 +22,12 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('post')->insert([
             'type' =>'img',
-            'filename' => '/home/ana/Desktop/Praksa/Praksa/my_app/img/a.png',
+            'filename' => '/home/ana/Desktop/Praksa/Praksa/my_app/public/files/a.png',
             'userId'=> 1,
         ]);
         DB::table('post')->insert([
             'type' =>'img',
-            'filename' => '/home/ana/Desktop/Praksa/Praksa/my_app/img/b.png',
+            'filename' => '/home/ana/Desktop/Praksa/Praksa/my_app/public/files/b.png',
             'userId'=> 1,
         ]);
     }
