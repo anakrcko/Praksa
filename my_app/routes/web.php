@@ -31,7 +31,7 @@ Route::group(['middleware'=>'user'],function(){
 	// Route::post('writeComment','UserPostController@writeComment');
 	// Route::get('deletePost/{id}','UserPostController@deletePost');
 	// Route::get('editPost/{id}','UserPostController@editPost');
-    
+    //Route::post('usersettings','UserController@ChangeUserSettings');
     Route::get('dashboard','PostController@getDashboard');  //
 
     Route::get('delete-post/{post_id}',[
@@ -41,7 +41,7 @@ Route::group(['middleware'=>'user'],function(){
     ]);
     Route::get('profile','HomeController@index');
     
-    
+    Route::get('logout', 'UserController@logout');
 });
 
 
