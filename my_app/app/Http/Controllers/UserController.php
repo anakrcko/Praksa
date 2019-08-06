@@ -43,7 +43,7 @@ class UserController extends Controller
 
         $token = JWTAuth::getToken();
         $user = JWTAuth::toUser($token);
-        
+       // dd($user);
         if($user)
         {
             $user->name = Input::get('fullname');
