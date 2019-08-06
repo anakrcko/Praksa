@@ -39,7 +39,7 @@ Route::group(['middleware'=>'user'],function(){
         'as' => 'post.delete',
         'middleware' => 'auth',
     ]);
-    Route::get('profile','HomeController@index');
+  //  Route::get('dashboard/profile','UserController@getAuthUser');
     
     Route::get('logout', 'UserController@logout');
 });

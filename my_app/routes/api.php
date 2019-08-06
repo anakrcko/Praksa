@@ -17,6 +17,7 @@ use App\User;
 
     Route::post('usersettings','UserController@ChangeUserSettings');
 
+    Route::post('dashboard/profile','UserController@getAuthUser');
     Route::middleware('jwt.auth')->get('users', function (){    
         return auth('api')->user();
     });
