@@ -28,7 +28,11 @@ class UserController extends Controller
         $user = JWTAuth::toUser($token);
         if($user)
         {
-            return response()->json(['user' => $user]);
+            //return response()->json(['user' => $user]);
+            return response()->json([
+                'name' => $user->name,
+                'email' => $user->email,
+            ]);
         }
         
     }
