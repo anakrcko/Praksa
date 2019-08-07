@@ -21,6 +21,7 @@ use App\User;
     Route::post('dashboard/profile','UserController@getAuthUser');
 
     Route::post('image', 'FileController@saveFile');
+    Route::post('logout', 'UserController@logout');
 
     Route::middleware('jwt.auth')->get('users', function (){    
         return auth('api')->user();

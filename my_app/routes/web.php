@@ -42,7 +42,6 @@ Route::group(['middleware'=>'user'],function(){
     ]);
   //  Route::get('dashboard/profile','UserController@getAuthUser');
     
-    Route::get('logout', 'UserController@logout');
 });
 
 

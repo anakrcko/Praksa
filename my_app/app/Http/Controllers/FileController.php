@@ -14,7 +14,7 @@ class FileController extends Controller
         $user = JWTAuth::toUser($token);
         if($user)
         {
-            $File = $request -> file('image'); //line 1
+            $File = $request -> file('file'); //line 1
             $sub_path = 'files'; //line 2
             $real_name = $File -> getClientOriginalName(); //line 3
                 
