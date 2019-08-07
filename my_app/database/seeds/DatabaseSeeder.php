@@ -20,6 +20,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => bcrypt('admin'),
         ]);
+        DB::table('users')->insert([
+            'name' => 'Aleksandra Radovanovic',
+            //'lastName' => 'Radovanovic',
+            //'username' => 'admin',
+            'email' => 'admin2@gmail.com',
+            'password' => bcrypt('admin'),
+        ]);
         DB::table('post')->insert([
             'type' =>'img',
             'filename' => '/home/ana/Desktop/Praksa/Praksa/my_app/public/files/a.png',
@@ -28,7 +35,7 @@ class DatabaseSeeder extends Seeder
         DB::table('post')->insert([
             'type' =>'img',
             'filename' => '/home/ana/Desktop/Praksa/Praksa/my_app/public/files/b.png',
-            'userId'=> 1,
+            'userId'=> 2,
         ]);
     }
 }

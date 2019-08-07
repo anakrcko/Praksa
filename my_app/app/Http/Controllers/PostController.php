@@ -22,9 +22,16 @@ class PostController extends Controller
 				$file=explode('/',$post->filename);
 				$lastElement = last($file);
 				$bin = base64_encode($lastElement);
+				$post->name=$user->name;
 				$post->file= $bin;
 			}
 			return response()->json(['postsArray' => $posts]);
+			// return response()->json([
+            //     'name' => $user->name,
+			// 	'email' => $user->email,
+			// 	'file' => $post->file,
+			// 	'date'=>$post->created_at,
+            // ]);
 		}
 	}
 
