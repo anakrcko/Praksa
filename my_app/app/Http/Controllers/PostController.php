@@ -14,7 +14,6 @@ class PostController extends Controller
 		$posts = Post::orderBy('created_at','desc')->get();
 
 		return response()->json(['postsArray' => $posts]);
-		//vrati niz
 	}
 
     public function postCreatePost(Request $request){
