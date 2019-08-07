@@ -12,8 +12,20 @@ class PostController extends Controller
 {
 	public function getDashboard(){
 		$posts = Post::orderBy('created_at','desc')->get();
-
-		return response()->json(['postsArray' => $posts]);
+		$token = JWTAuth::getToken();
+        $user = JWTAuth::toUser($token);
+        if($user)
+        {
+			foreach($posts as $post)
+			{
+				
+				$file=explode('/',$post->filename);
+				$lastElement = last($file);
+				$bin = base64_encode($lastElement);
+				$post->file= $bin;
+			}
+			return response()->json(['postsArray' => $posts]);
+		}
 	}
 
     public function postCreatePost(Request $request){
