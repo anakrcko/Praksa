@@ -32,28 +32,21 @@ class UserController extends Controller
             return response()->json([
                 'name' => $user->name,
                 'email' => $user->email,
+                'place' => $user->place,
+                'date' => $user->date,
             ]);
         }
         
     }
     public function ChangeUserSettings(Request $request)
     {
-        // $this->validate($request, [
-        //     'name' => 'required|max:50|unique:users',
-        //     // 'email' => 'required|email|unique:users',
-        //     // 'password' => 'required|min:4'
-        //     'name2' => 'required|max:50|unique:users'
-        // ]);
-
         $token = JWTAuth::getToken();
         $user = JWTAuth::toUser($token);
-       // dd($user);
         if($user)
         {
             $user->name = Input::get('fullname');
-            // $user->email = Input::get('email');
-            // $user->password = bcrypt(Input::get('password'));
-
+            $user->place= Input::get('place');
+            $user->date= Input::get('date');
             $user->save();
         }
         
