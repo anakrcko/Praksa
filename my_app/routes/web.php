@@ -18,7 +18,11 @@ Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');
     return "Cache is cleared";
 });
-
+Route::get('files/{filename}', function ($filename)
+{
+    $file = \Illuminate\Support\Facades\Storage::get($filename);
+    return response($file, 200)->header('Content-Type', 'image/*');
+});
 Auth::routes();
 
 
