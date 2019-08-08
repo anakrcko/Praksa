@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
+use App\Like;
 
 class PostController extends Controller
 {
@@ -25,6 +26,8 @@ class PostController extends Controller
 				//$bin = base64_encode($lastElement);
 				$userPost= User::where('id', '=', $post->userId)-> first();
 				$post->name=$userPost->name;
+				$count = Like::where('postId','=',$post->id)->count();
+				$post->likes=$count;
 				$post->file= $lastElement;
 			}
 			return response()->json(['postsArray' => $posts]);
