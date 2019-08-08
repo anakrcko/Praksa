@@ -32,7 +32,7 @@ class PostController extends Controller
 							->where('postId', '=', $post->id)
 							->count();
 				$post->liked=$res;
-				$comments = Comment::orderBy('created_at','desc')
+				$comments = Comment::orderBy('created_at','asc')
 						->where('postCommentId', '=', $post->id)->get();
 
 				foreach($comments as $comment)
