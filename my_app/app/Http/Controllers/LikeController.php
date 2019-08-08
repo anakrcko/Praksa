@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Like;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Input;
 
 class LikeController extends Controller
 {
@@ -16,6 +20,37 @@ class LikeController extends Controller
         //
     }
 
+    public function like()
+    {
+        $token = JWTAuth::getToken();
+		$user = JWTAuth::toUser($token);
+        if($user)
+        {
+            $res=Like::where('userPostId', '=', Input::get('userPostId'))
+                    ->where('postId', '=', Input::get('postId'))
+                    ->where('userLikeId', '=', $user->id)
+                    ->delete();
+            if ($res==1) 
+            {
+                return response()->json([
+                    'success' => false,
+                    'token' => 'Unliked',
+                ]);
+            }
+            else
+            {
+                $like = new Like();
+                $like->userPostId = Input::get('userPostId');
+                $like->postId = Input::get('postId');
+                $like->userLikeId = $user->id;
+                $like->save();
+                return response()->json([
+                    'success' => false,
+                    'token' => 'Liked',
+                ]);
+            }
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *

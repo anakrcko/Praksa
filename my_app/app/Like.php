@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Like extends Model
 {
+    public $table = 'like';
+    
     public function user(){
     	return $this->belongsTo('App\User');
     }
