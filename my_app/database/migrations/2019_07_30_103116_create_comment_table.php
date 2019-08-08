@@ -20,11 +20,13 @@ class CreateCommentTable extends Migration
             $table->timestamps();
         });
         Schema::table('comment', function (Blueprint $table) {
-            $table->unsignedBigInteger('userId');
-            $table->unsignedBigInteger('postId');
+            $table->unsignedBigInteger('userCommentId');
+            $table->unsignedBigInteger('postCommentId');
+            $table->unsignedBigInteger('userPostId');
 
-            $table->foreign('userId')->references('id')->on('users');
-            $table->foreign('postId')->references('id')->on('post');
+            $table->foreign('userPostId')->references('id')->on('users');
+            $table->foreign('userCommentId')->references('id')->on('users');
+            $table->foreign('postCommentId')->references('id')->on('post');
             
         });
     }

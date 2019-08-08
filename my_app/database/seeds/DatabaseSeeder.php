@@ -42,5 +42,11 @@ class DatabaseSeeder extends Seeder
             'userLikeId' => 2,
             'postId'=>1,
         ]);
+        DB::table('comment')->insert([
+            'userPostId' => 1,
+            'userCommentId' => 1,
+            'postCommentId' => 1,
+            'text'=>"Prelepo",
+        ]);
     }
 }
