@@ -22,10 +22,10 @@ class PostController extends Controller
 				
 				$file=explode('/',$post->filename);
 				$lastElement = last($file);
-				$bin = base64_encode($lastElement);
+				//$bin = base64_encode($lastElement);
 				$userPost= User::where('id', '=', $post->userId)-> first();
 				$post->name=$userPost->name;
-				$post->file= $bin;
+				$post->file= $lastElement;
 			}
 			return response()->json(['postsArray' => $posts]);
 		}
