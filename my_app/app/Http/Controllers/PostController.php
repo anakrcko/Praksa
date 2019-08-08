@@ -37,7 +37,7 @@ class PostController extends Controller
 
 				foreach($comments as $comment)
 				{
-					$userCommented= User::where('id', '=', $comment->userPostId)->first();
+					$userCommented= User::where('id', '=', $comment->userCommentId)->first();
 					$comment->userCommentName= $userCommented->name;
 				}
 				$post->comments=$comments;
