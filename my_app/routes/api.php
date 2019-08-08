@@ -22,6 +22,7 @@ use App\User;
 
     Route::post('image', 'FileController@saveFile');
     Route::post('logout', 'UserController@logout');
+    Route::post('like', 'LikeController@like');
 
     Route::middleware('jwt.auth')->get('users', function (){    
         return auth('api')->user();

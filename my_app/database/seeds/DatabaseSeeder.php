@@ -37,5 +37,10 @@ class DatabaseSeeder extends Seeder
             'filename' => '/home/ana/Desktop/Praksa/Praksa/my_app/public/files/b.png',
             'userId'=> 2,
         ]);
+        DB::table('like')->insert([
+            'userPostId' => 1,
+            'userLikeId' => 2,
+            'postId'=>1,
+        ]);
     }
 }
