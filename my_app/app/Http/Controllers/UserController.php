@@ -44,7 +44,7 @@ class UserController extends Controller
         if($user)
         {
             $user->name = Input::get('fullname');
-            $user->place= Input::get('place');
+            //$user->place= Input::get('place');
             $user->save();
         }
         
