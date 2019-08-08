@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Comment;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Input;
 
 class CommentController extends Controller
 {
@@ -14,6 +18,27 @@ class CommentController extends Controller
     public function index()
     {
         //
+    }
+    public function comments()
+    {
+        $token = JWTAuth::getToken();
+		$user = JWTAuth::toUser($token);
+        if($user)
+        {
+            $com = new Comment();
+            
+            $com->userPostId = Input::get('userPostId');
+            $com->postCommentId = Input::get('id');
+            $com->userCommentId = $user->id;
+            $com->text= Input::get('com');
+            $com->save();
+                
+            return response()->json([
+                'success' => true,
+                'token' => 'Commented',
+                ]);
+            
+        }
     }
 
     /**
