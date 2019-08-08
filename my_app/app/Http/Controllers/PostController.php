@@ -7,13 +7,14 @@ use App\Post;
 use Illuminate\Support\Facades\Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\User;
 
 class PostController extends Controller
 {
 	public function getDashboard(){
 		$posts = Post::orderBy('created_at','desc')->get();
 		$token = JWTAuth::getToken();
-        $user = JWTAuth::toUser($token);
+		$user = JWTAuth::toUser($token);
         if($user)
         {
 			foreach($posts as $post)
@@ -22,16 +23,11 @@ class PostController extends Controller
 				$file=explode('/',$post->filename);
 				$lastElement = last($file);
 				$bin = base64_encode($lastElement);
-				$post->name=$user->name;
+				$userPost= User::where('id', '=', $post->userId)-> first();
+				$post->name=$userPost->name;
 				$post->file= $bin;
 			}
 			return response()->json(['postsArray' => $posts]);
-			// return response()->json([
-            //     'name' => $user->name,
-			// 	'email' => $user->email,
-			// 	'file' => $post->file,
-			// 	'date'=>$post->created_at,
-            // ]);
 		}
 	}
 
