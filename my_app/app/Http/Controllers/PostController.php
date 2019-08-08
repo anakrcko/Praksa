@@ -34,6 +34,12 @@ class PostController extends Controller
 				$post->liked=$res;
 				$comments = Comment::orderBy('created_at','desc')
 						->where('postCommentId', '=', $post->id)->get();
+
+				foreach($comments as $comment)
+				{
+					$userCommented= User::where('id', '=', $comment->userPostId)->first();
+					$comment->userCommentName= $userCommented->name;
+				}
 				$post->comments=$comments;
 				$post->likes=$count;
 				$post->file= $lastElement;
