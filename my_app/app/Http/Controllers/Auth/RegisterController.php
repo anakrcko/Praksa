@@ -90,7 +90,6 @@ class RegisterController extends Controller
             $user->email = Input::get('email');
             $user->password = bcrypt(Input::get('password'));
             $user->place= Input::get('place');
-            $user->date= Input::get('date');
             $user->save();
     
             return response()->json([

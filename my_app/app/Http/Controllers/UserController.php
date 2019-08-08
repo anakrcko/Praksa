@@ -33,7 +33,6 @@ class UserController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'place' => $user->place,
-                'date' => $user->date,
             ]);
         }
         
@@ -46,7 +45,6 @@ class UserController extends Controller
         {
             $user->name = Input::get('fullname');
             $user->place= Input::get('place');
-            $user->date= Input::get('date');
             $user->save();
         }
         
