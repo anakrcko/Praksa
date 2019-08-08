@@ -21,7 +21,7 @@ class UserController extends Controller
     // public function logout(){
     // 	Auth::logout();
     // }
- 
+
     public function getAuthUser(Request $request)
     {
         $token = JWTAuth::getToken();
@@ -35,7 +35,7 @@ class UserController extends Controller
                 'place' => $user->place,
             ]);
         }
-        
+
     }
     public function ChangeUserSettings(Request $request)
     {
@@ -44,21 +44,24 @@ class UserController extends Controller
         if($user)
         {
             $user->name = Input::get('fullname');
-            //$user->place= Input::get('place');
+            return response()->json([
+                'success' => true,
+                'message' => 'User name changed'
+            ]);
             $user->save();
         }
-        
+
     }
-    
+
     public function logout(Request $request)
     {
         $this->validate($request, [
             'token' => 'required'
         ]);
- 
+
         try {
             JWTAuth::invalidate($request->token);
- 
+
             return response()->json([
                 'success' => true,
                 'message' => 'User logged out successfully'
