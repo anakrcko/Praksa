@@ -19,7 +19,8 @@ use App\User;
     Route::post('dashboard','PostController@getDashboard'); 
     
     Route::post('dashboard/profile','UserController@getAuthUser');
-
+    Route::post('delete','PostController@getDeletePost'); 
+    
     Route::post('image', 'FileController@saveFile');
     Route::post('logout', 'UserController@logout');
     Route::post('like', 'LikeController@like');

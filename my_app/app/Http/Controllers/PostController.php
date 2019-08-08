@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
 use App\Like;
 use App\Comment;
+use Illuminate\Support\Facades\Input;
 
 class PostController extends Controller
 {
@@ -53,24 +54,29 @@ class PostController extends Controller
 		
     }
 
-    public function getDeletePost($post_id){
-    		$post = Post::where('id',$post_id)->first();
+    public function getDeletePost(){
 
+			$post = Post::where('id', '=', Input::get('id'))->first();
+			
 			$token = JWTAuth::getToken();
-        	$user = JWTAuth::toUser($token);
-    		if ($user != $post->userId) {
+			$user = JWTAuth::toUser($token);
+    		if ($user->id != $post->userId) {
     			return response()->json([
 					'success' => false,
 					'token' => 'Unauthorized access',
 				]);
     		}
-
-    		$post->delete();
-			return response()->json([
-                'success' => true,
-                //'token' => 'Successfully Deleted!',
-            ]);
-
+			else
+			{	
+				$like = Like::where('postId','=',$post->id)->delete();
+				$comments = Comment::orderBy('created_at','asc')
+							->where('postCommentId', '=', $post->id)->delete();
+				$post->delete();
+				return response()->json([
+					'success' => true,
+					'token' => 'Successfully Deleted!',
+				]);
+			}
     }
     public function postEditPost(Request $request){
 
