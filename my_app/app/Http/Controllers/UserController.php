@@ -49,6 +49,9 @@ class UserController extends Controller
                 'message' => 'User name changed'
             ]);
             $user->save();
+            return response()->json([
+                'success' => true
+            ]);
         }
 
     }
