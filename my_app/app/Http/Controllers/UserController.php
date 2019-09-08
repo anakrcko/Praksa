@@ -46,6 +46,9 @@ class UserController extends Controller
             $user->name = Input::get('fullname');
             //$user->place= Input::get('place');
             $user->save();
+            return response()->json([
+                'success' => true
+            ]);
         }
         
     }
