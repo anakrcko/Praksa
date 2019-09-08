@@ -44,13 +44,11 @@ class UserController extends Controller
         if($user)
         {
             $user->name = Input::get('fullname');
+            
+            $user->save();
             return response()->json([
                 'success' => true,
                 'message' => 'User name changed'
-            ]);
-            $user->save();
-            return response()->json([
-                'success' => true
             ]);
         }
 
