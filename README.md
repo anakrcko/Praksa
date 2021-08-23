@@ -1,1 +1,1 @@
-# Praksa
+# Laravel app
